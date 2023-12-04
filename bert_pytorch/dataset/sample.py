@@ -62,9 +62,13 @@ def generate_train_valid(data_path, window_size=20, adaptive_window=True,
         data_iter = f.readlines()
 
     num_session = int(len(data_iter) * sample_ratio)
+    
     # only even number of samples, or drop_last=True in DataLoader API
     # coz in parallel computing in CUDA, odd number of samples reports issue when merging the result
     # num_session += num_session % 2
+
+    print("num_session ", int(num_session))
+    print("sample_ratio ", int(sample_ratio))
 
     test_size = int(min(num_session, len(data_iter)) * valid_size)
     # only even number of samples
@@ -79,6 +83,7 @@ def generate_train_valid(data_path, window_size=20, adaptive_window=True,
     time_seq_pairs = []
     session = 0
     for line in tqdm(data_iter):
+        #print ("line", line)
         if session >= num_session:
             break
         session += 1

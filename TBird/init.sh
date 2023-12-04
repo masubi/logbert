@@ -12,5 +12,4 @@ mkdir -p 'bert'
 mkdir -p 'deeplog'
 mkdir -p 'loganomaly'
 
-
 echo "model dirs done"

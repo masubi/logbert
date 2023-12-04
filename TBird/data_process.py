@@ -2,6 +2,9 @@ import sys
 sys.path.append('../')
 
 import os
+print('cwd: %s' %(os.getcwd()))
+
+import os
 import pandas as pd
 import numpy as np
 from logparser import Spell, Drain
@@ -141,10 +144,14 @@ if __name__ == "__main__":
     df['deltaT'] = df['datetime'].diff() / np.timedelta64(1, 's')
     df['deltaT'].fillna(0)
 
+    print(df.head())
+
     # sampling with sliding window
     deeplog_df = sliding_window(df[["timestamp", "Label", "EventId", "deltaT"]],
                                 para={"window_size": float(window_size)*60, "step_size": float(step_size) * 60}
                                 )
+    print(deeplog_df.head())
+
     output_dir += window_name
 
     #########
@@ -157,6 +164,7 @@ if __name__ == "__main__":
 
     train = df_normal[:train_len]
     deeplog_file_generator(os.path.join(output_dir,'train'), train, ["EventId"])
+    print(df_normal.head())
     print("training size {}".format(train_len))
 
 
@@ -173,5 +181,6 @@ if __name__ == "__main__":
     #################
     df_abnormal = deeplog_df[deeplog_df["Label"] == 1]
     deeplog_file_generator(os.path.join(output_dir,'test_abnormal'), df_abnormal, ["EventId"])
+    print(df_abnormal.head())
     print('test abnormal size {}'.format(len(df_abnormal)))
 
